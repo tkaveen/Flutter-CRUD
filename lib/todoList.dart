@@ -14,7 +14,10 @@ class TodoList extends StatelessWidget {
             children: [
               Text(
                 "All Todos",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
               Divider(),
               SizedBox(
@@ -25,10 +28,25 @@ class TodoList extends StatelessWidget {
                 itemCount: 5,
                 itemBuilder: (context, index) {
                   return ListTile(
+                    onTap: () {},
+                    leading: Container(
+                      padding: EdgeInsets.all(2),
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          shape: BoxShape.circle),
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                      ),
+                    ),
                     title: Text(
                       "Todo title",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey[200],
+                          fontWeight: FontWeight.w600),
                     ),
                   );
                 },
@@ -36,6 +54,29 @@ class TodoList extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Theme.of(context).primaryColor,
+        onPressed: () {
+          showDialog(
+              context: context,
+              child: SimpleDialog(
+                title: Row(
+                  children: [
+                    Text("Add Todo"),
+                    Spacer(),
+                    IconButton(
+                      icon: Icon(
+                        Icons.cancel,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
+              ));
+        },
       ),
     );
   }
