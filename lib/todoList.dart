@@ -36,6 +36,9 @@ class _TodoListState extends State<TodoList> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Divider(
                       color: Colors.grey[100],
                     ),
@@ -57,8 +60,9 @@ class _TodoListState extends State<TodoList> {
                               child: Icon(Icons.delete),
                               color: Colors.red,
                             ),
-                            onDismissed: (direction) {
-                              print("Removed");
+                            onDismissed: (direction) async {
+                              await DatabaseService()
+                                  .removeTodo(todos[index].uid);
                             },
                             child: ListTile(
                               onTap: () {

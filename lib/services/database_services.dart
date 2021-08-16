@@ -16,6 +16,10 @@ class DatabaseService {
     return await todoCollection.doc(uid).update({"isComplete": true});
   }
 
+  Future removeTodo(uid) async {
+    await todoCollection.doc(uid).delete();
+  }
+
   List<Todo> todoFromFirestore(QuerySnapshot snapshot) {
     if (snapshot != null) {
       return snapshot.docs.map((e) {
