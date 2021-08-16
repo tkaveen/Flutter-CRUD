@@ -20,9 +20,10 @@ class _TodoListState extends State<TodoList> {
         child: StreamBuilder<List<Todo>>(
             stream: DatabaseService().listTodos(),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              if (!snapshot.hasData) {
                 return Loading();
               }
+              List<Todo> todos = snapshot.data;
               return Padding(
                 padding: EdgeInsets.all(25),
                 child: Column(
@@ -46,10 +47,10 @@ class _TodoListState extends State<TodoList> {
                         color: Colors.grey[200],
                       ),
                       shrinkWrap: true,
-                      itemCount: 5,
+                      itemCount: todos.length,
                       itemBuilder: (context, index) {
                         return Dismissible(
-                            key: Key(index.toString()),
+                            key: Key(todos[index].title),
                             background: Container(
                               padding: EdgeInsets.only(left: 20),
                               alignment: Alignment.centerLeft,
@@ -61,9 +62,8 @@ class _TodoListState extends State<TodoList> {
                             },
                             child: ListTile(
                               onTap: () {
-                                setState(() {
-                                  isComplete = !isComplete;
-                                });
+                                DatabaseService()
+                                    .completeTask(todos[index].uid);
                               },
                               leading: Container(
                                 padding: EdgeInsets.all(2),
@@ -72,7 +72,7 @@ class _TodoListState extends State<TodoList> {
                                 decoration: BoxDecoration(
                                     color: Theme.of(context).primaryColor,
                                     shape: BoxShape.circle),
-                                child: isComplete
+                                child: todos[index].isComplete
                                     ? Icon(
                                         Icons.check,
                                         color: Colors.white,
@@ -80,7 +80,7 @@ class _TodoListState extends State<TodoList> {
                                     : Container(),
                               ),
                               title: Text(
-                                "Todo title",
+                                todos[index].title,
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.grey[200],
