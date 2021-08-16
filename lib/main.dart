@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             home: TodoList(),
             theme: ThemeData(
               scaffoldBackgroundColor: Colors.grey[900],
-              primarySwatch: Colors.pink,
+              primarySwatch: Colors.blue,
             ),
           );
         });

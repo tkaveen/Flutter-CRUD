@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:crudapp/loading.dart';
 import 'package:crudapp/model/todo.dart';
 import 'package:crudapp/services/database_services.dart';
