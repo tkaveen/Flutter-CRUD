@@ -9,6 +9,7 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
   bool isComplete = false;
+  TextEditingController todoTitleController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,34 +39,45 @@ class _TodoListState extends State<TodoList> {
                 shrinkWrap: true,
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    onTap: () {
-                      setState(() {
-                        isComplete = !isComplete;
-                      });
-                    },
-                    leading: Container(
-                      padding: EdgeInsets.all(2),
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          shape: BoxShape.circle),
-                      child: isComplete
-                          ? Icon(
-                              Icons.check,
-                              color: Colors.white,
-                            )
-                          : Container(),
-                    ),
-                    title: Text(
-                      "Todo title",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.grey[200],
-                          fontWeight: FontWeight.w600),
-                    ),
-                  );
+                  return Dismissible(
+                      key: Key(index.toString()),
+                      background: Container(
+                        padding: EdgeInsets.only(left: 20),
+                        alignment: Alignment.centerLeft,
+                        child: Icon(Icons.delete),
+                        color: Colors.red,
+                      ),
+                      onDismissed: (direction) {
+                        print("Removed");
+                      },
+                      child: ListTile(
+                        onTap: () {
+                          setState(() {
+                            isComplete = !isComplete;
+                          });
+                        },
+                        leading: Container(
+                          padding: EdgeInsets.all(2),
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              shape: BoxShape.circle),
+                          child: isComplete
+                              ? Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                )
+                              : Container(),
+                        ),
+                        title: Text(
+                          "Todo title",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.grey[200],
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ));
                 },
               )
             ],
@@ -104,6 +116,7 @@ class _TodoListState extends State<TodoList> {
                 children: [
                   Divider(),
                   TextFormField(
+                    controller: todoTitleController,
                     style: TextStyle(
                         fontSize: 18, height: 1.5, color: Colors.white),
                     autofocus: true,
@@ -124,7 +137,12 @@ class _TodoListState extends State<TodoList> {
                       child: Text("Add"),
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      onPressed: () {},
+                      onPressed: () {
+                        if (todoTitleController.text.isNotEmpty) {
+                          print(todoTitleController.text);
+                          Navigator.pop(context);
+                        }
+                      },
                     ),
                   )
                 ],
